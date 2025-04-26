@@ -1,10 +1,23 @@
-import React from 'react'
-import AddTodo from './AddTodo'
-import TodoFilter from './TodoFilter'
-import TodoList from './TodoList'
-import FooterActions from './FooterActions'
+import React, { useEffect, useState } from "react";
+import TodoFilter from "./TodoFilter";
+import AddTodo from "./AddTodo";
+import TodoList from "./TodoList";
+import FooterActions from "./FooterActions";
+import axios from "axios";
 
-export default function TodoForm() {
+const TodoForm = () => {
+    const [listData, setListData] = useState([]);
+
+    const handleGetListData = async () => {
+        axios.get(`http://localhost:3000/libraries`).then((res) => {
+            setListData(res.data);
+        });
+    };
+
+    useEffect(() => {
+        handleGetListData();
+    }, []);
+
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center w-full">
             <div className="max-w-md w-full p-6 bg-white rounded-lg shadow">
@@ -13,10 +26,11 @@ export default function TodoForm() {
                 </h1>
                 <AddTodo />
                 <TodoFilter />
-                <TodoList />
+                <TodoList todos={listData} />
                 <FooterActions />
-                {/* file App.jsx chứa TodoForm */}
             </div>
         </div>
-    )
-}
+    );
+};
+
+export default TodoForm;

@@ -1,6 +1,10 @@
 import { Pencil, Trash2 } from "lucide-react";
 
 export default function TodoItem({ todo }) {
+    if (!todo) {
+        return <div>Không có dữ liệu todo!</div>;
+    }
+
     return (
         <li className="flex items-center justify-between border border-gray-300 px-3 py-2 rounded">
             <label className="flex items-center gap-2">
